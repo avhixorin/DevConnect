@@ -10,7 +10,7 @@ import Footer from './Footer/Footer'
 
 const LandingPage:React.FC = () => {
   return (
-    <div className='w-full h-screen overflow-y-auto flex flex-col justify-center items-center'>
+    <div className='w-full h-full overflow-y-auto flex flex-col justify-center items-center'>
       <NavBar />
       <Hero />
       <About />

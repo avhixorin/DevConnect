@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 const App:React.FC = () => {
   return (
-    <div className="w-full h-screen bg-red-400">
+    <div className="w-full h-full bg-red-400 overflow-y-auto">
       <Outlet />
     </div>
   )
