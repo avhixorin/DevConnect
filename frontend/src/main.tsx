@@ -4,10 +4,12 @@ import './index.css'
 import App from './App.tsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import LandingPage from './components/LandingPage/LandingPage.tsx'
+import Auth from './components/Auth/Auth.tsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} >
       <Route index element={<LandingPage/>} />
+      <Route path="auth" element={<Auth />} />
     </Route>
   )
 )
