@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ShinyText from "../../Bits/ShinyText/ShinyText";
 import { CircleX, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -43,7 +42,7 @@ const NavBar: React.FC = () => {
       className={`w-full px-6 lg:px-16 py-4 fixed top-0 left-0 flex items-center z-50 font-light transition-all duration-500 ${
         isScrolled
           ? "md:justify-center bg-transparent justify-end"
-          : "justify-between bg-secondary shadow-lg"
+          : "justify-between bg-[#060720] shadow-lg"
       }`}
       id="top"
     >
@@ -62,7 +61,7 @@ const NavBar: React.FC = () => {
 
       <motion.ul
         layout
-        className="hidden md:flex bg-[#0c0c19] space-x-4 text-sm tracking-wide border text-slate-400 border-borderColor rounded-full px-4 py-2"
+        className="hidden md:flex bg-[#0c0c19] space-x-4 text-sm tracking-wide border text-slate-400 border-[#242441] rounded-full px-4 py-2"
       >
         <AnimatePresence>
           {showJoinNow.map((item) => (
@@ -101,12 +100,7 @@ const NavBar: React.FC = () => {
           className="hidden md:flex space-x-4"
           onClick={() => navigate("/auth")}
         >
-          <ShinyText
-            text="Join Now"
-            disabled={false}
-            speed={3}
-            className="border border-[#242441] px-4 py-1 rounded-lg text-slate-400 cursor-pointer hover:text-slate-300 transition duration-300"
-          />
+          <h1 className="border border-[#242441] px-4 py-1 rounded-lg text-slate-400 cursor-pointer hover:text-slate-300 transition duration-300">Join Now</h1>
         </motion.div>
       )}
 
