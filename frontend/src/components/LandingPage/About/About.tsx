@@ -1,5 +1,4 @@
 import React from "react";
-import Threads from "../../Bits/HyperSpeed/Threads";
 
 const About: React.FC = () => {
   return (
@@ -28,7 +27,7 @@ const About: React.FC = () => {
 
         {/* Right: Visual Representation */}
         <div className="flex justify-center">
-          <div className="w-[80%] md:w-[60%] h-64 bg-borderColor rounded-lg shadow-lg flex items-center justify-center">
+          <div className="w-[80%] md:w-[60%] h-64 bg-[#242441] rounded-lg shadow-lg flex items-center justify-center">
             {/* Placeholder for an image, animation, or illustration */}
             <span className="text-gray-500">🚀 Coming Soon</span>
           </div>
