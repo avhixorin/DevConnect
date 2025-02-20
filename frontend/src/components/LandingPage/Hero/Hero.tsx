@@ -1,8 +1,5 @@
-
 import React from "react";
 import ShinyText from "../../Bits/ShinyText/ShinyText";
-import Threads from "../../Bits/HyperSpeed/Threads";
-
 
 const Hero: React.FC = () => {
   return (
@@ -10,9 +7,9 @@ const Hero: React.FC = () => {
       className="relative w-full h-screen flex flex-col items-center justify-center px-6 mt-20 pt-20 font-poppins overflow-hidden"
       id="hero"
     >
-      <div className="absolute inset-0 z-0 mb-56">
+      {/* <div className="absolute inset-0 z-0 mb-56">
         <Threads />
-      </div>
+      </div> */}
 
       <div className="relative z-10 flex flex-col items-center">
         <ShinyText
@@ -33,7 +30,7 @@ const Hero: React.FC = () => {
           <p className="text-lg text-slate-500">Chat, share, and connect</p>
         </div>
 
-        <div className="w-[90%] md:w-[80%] h-96 bg-borderColor mt-10 rounded-lg px-6 md:px-20"></div>
+        <div className="w-[90%] md:w-[80%] h-[36rem] bg-borderColor mt-10 rounded-xl px-6 md:px-20"></div>
       </div>
     </section>
   );
