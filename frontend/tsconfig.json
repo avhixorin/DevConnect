@@ -8,7 +8,9 @@
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "moduleResolution": "node16",
-    "module": "Node16",
+    "moduleResolution": "bundler", 
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "types": ["node"]
   }
 }
