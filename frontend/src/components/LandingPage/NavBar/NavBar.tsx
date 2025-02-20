@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ShinyText from "../../Bits/ShinyText/ShinyText";
+import { CircleX, Menu } from "lucide-react";
 
 const NavBar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,6 +36,7 @@ const NavBar: React.FC = () => {
           ? "md:justify-center bg-transparent justify-end"
           : "justify-between bg-[#0e0e1e] shadow-lg"
       }`}
+      id="top"
     >
       {!isScrolled && (
         <motion.h1
@@ -98,7 +100,7 @@ const NavBar: React.FC = () => {
         aria-label="Open Menu"
         onClick={() => setIsOpen(true)}
       >
-        ☰
+        <Menu />
       </button>
 
       <AnimatePresence>
@@ -123,7 +125,7 @@ const NavBar: React.FC = () => {
                 className="absolute top-5 right-5 text-white text-2xl focus:outline-none"
                 onClick={() => setIsOpen(false)}
               >
-                ✕
+                <CircleX />
               </button>
 
               <ul className="flex flex-col space-y-6 text-white text-lg">
@@ -140,7 +142,12 @@ const NavBar: React.FC = () => {
                         : "hover:text-gray-300"
                     }`}
                   >
-                    <a href="#">{item}</a>
+                    <button 
+                      onClick={() => {
+                        handleScrollToSection(item)
+                        setIsOpen(false)
+                      }}
+                    >{item}</button>
                   </motion.li>
                 ))}
               </ul>
