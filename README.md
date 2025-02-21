@@ -17,7 +17,7 @@ DevConnect is a **modern social network** designed exclusively for developers! C
 
 ## 🛠 Tech Stack
 
-### Frontend:
+### Frontend
 
 - **Next.js** (SEO-friendly & Server-Side Rendering)
 - **Tailwind CSS** (Modern UI Styling)
