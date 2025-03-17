@@ -4,10 +4,22 @@ import styled from "styled-components";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const [userData, setUserData] = React.useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(userData);
+  };
   return (
     <div className="w-full h-screen flex justify-center items-center relative">
       <StyledWrapper>
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit}>
           <div className="flex-column">
             <label>Username </label>
           </div>
@@ -17,6 +29,9 @@ const RegisterForm = () => {
               placeholder="Enter your Username"
               className="input"
               type="text"
+              name="username"
+              onChange={handleChange}
+              value={userData.username}
             />
           </div>
           <div className="flex-column">
@@ -28,6 +43,9 @@ const RegisterForm = () => {
               placeholder="Enter your Email"
               className="input"
               type="text"
+              name="email"
+              onChange={handleChange}
+              value={userData.email}
             />
           </div>
           <div className="flex-column">
@@ -39,12 +57,17 @@ const RegisterForm = () => {
               placeholder="Enter your Password"
               className="input"
               type="password"
+              name="password"
+              onChange={handleChange}
+              value={userData.password}
             />
           </div>
           <div className="flex justify-end">
             <span className="span">Forgot password?</span>
           </div>
-          <button className="button-submit">Sign In</button>
+          <button type="submit" className="button-submit">
+            Sign Up
+          </button>
           <p className="p">
             Already have an account?{" "}
             <button onClick={() => navigate("/login")} className="span">

@@ -4,10 +4,21 @@ import styled from "styled-components";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [userData, setUserData] = React.useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(userData);
+  };
   return (
     <div className="w-full h-screen flex justify-center items-center relative">
       <StyledWrapper>
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit}>
           <div className="flex-column">
             <label>Email </label>
           </div>
@@ -17,6 +28,9 @@ const LoginForm = () => {
               placeholder="Enter your Email"
               className="input"
               type="text"
+              name="email"
+              onChange={handleChange}
+              value={userData.email}
             />
           </div>
           <div className="flex-column">
@@ -28,12 +42,15 @@ const LoginForm = () => {
               placeholder="Enter your Password"
               className="input"
               type="password"
+              name="password"
+              onChange={handleChange}
+              value={userData.password}
             />
           </div>
           <div className="flex justify-end">
             <span className="span">Forgot password?</span>
           </div>
-          <button className="button-submit">Sign In</button>
+          <button type="submit" className="button-submit">Sign In</button>
           <p className="p">
             Don't have an account?{" "}
             <button onClick={() => navigate("/register")} className="span">

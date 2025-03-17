@@ -9,7 +9,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import LandingPage from "./components/LandingPage/LandingPage.tsx";
-import Auth from "./components/Auth/Auth.tsx";
 import React from "react";
 import { Provider } from "react-redux";
 import store from "./redux/store/store.ts";
