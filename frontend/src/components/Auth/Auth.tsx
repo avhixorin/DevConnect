@@ -1,10 +1,10 @@
 import React from 'react'
-import Screen from '../LandingPage/Hero/Screen'
+import LoginForm from './Login/LoginForm'
 
 const Auth:React.FC = () => {
   return (
     <div className='w-full h-screen flex justify-center items-center relative'>
-      <Screen />
+      <LoginForm />
     </div>
   )
 }
