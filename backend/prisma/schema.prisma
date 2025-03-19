@@ -8,9 +8,66 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(uuid())
-  username  String  @unique
-  email     String  @unique
-  password  String
+  id          String    @id @default(uuid())
+  username    String    @unique
+  email       String    @unique
+  dateOfBirth DateTime?
+  displayName String?
+  password    String
+  isAdmin     Boolean   @default(false)
+  avatar      String?
+  createdAt   DateTime  @default(now())
+
+  posts       Post[]
+  comments    Comment[]
+  likes       Like[]
+  
+  followers   Follow[] @relation("followers")
+  following   Follow[] @relation("following")
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  title     String
+  content   String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  likes     Like[]
+  comments  Comment[]
+  category  Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id        String @id @default(uuid())
+  content   String
+  author    User   @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post   @relation(fields: [postId], references: [id])
+  postId    String
   createdAt DateTime @default(now())
+}
+
+model Like {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+}
+
+model Category {
+  id    String  @id @default(uuid())
+  name  String  @unique
+  posts Post[]
+}
+
+model Follow {
+  id         String @id @default(uuid())
+  follower   User   @relation("followers", fields: [followerId], references: [id])
+  followerId String
+  following  User   @relation("following", fields: [followingId], references: [id])
+  followingId String
+  createdAt  DateTime @default(now())
 }
