@@ -28,7 +28,7 @@ const NavBar: React.FC = () => {
   ];
   const showJoinNow = isScrolled ? [...navLinks, "Join Now"] : navLinks;
   const handleScrollToSection = (section: string) => {
-    if (section.toLowerCase() === "join now") return navigate("/auth/login");
+    if (section.toLowerCase() === "join now") return navigate("/login");
     const el = document.getElementById(section.toLowerCase());
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -98,7 +98,7 @@ const NavBar: React.FC = () => {
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
           className="hidden md:flex space-x-4"
-          onClick={() => navigate("/auth/login")}
+          onClick={() => navigate("/login")}
         >
           <h1 className="border border-[#242441] px-4 py-1 rounded-lg text-slate-400 cursor-pointer hover:text-slate-300 transition duration-300">Join Now</h1>
         </motion.div>
