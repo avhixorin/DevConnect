@@ -11,19 +11,20 @@ const verifyToken = async (token: string | undefined): Promise<User> => {
   if (!token) {
     throw new Error("Unauthorized access");
   }
-
+  console.log("The token is :", token)
   let decodedToken: JwtPayload;
   try {
     decodedToken = jwt.verify(
       token,
-      process.env.ACCESS_TOKEN_SECRET as string
+      process.env.JWT_ACCESS_SECRET as string
     ) as JwtPayload;
+
+    console.log("The decoded token is:", decodedToken)
   } catch (err) {
     throw new Error("Invalid or expired token");
   }
-
   const user = await prisma.user.findUnique({
-    where: { id: decodedToken.userId }, // Ensure your JWT stores `userId`
+    where: { id: decodedToken.userId },
   });
 
   if (!user) {

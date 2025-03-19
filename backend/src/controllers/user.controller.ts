@@ -42,7 +42,7 @@ const register = async (req: Request, res: Response) => {
 const generateAccessTokenAndRefreshToken = async (id: string) => {
   const accessToken = jwt.sign(
     { userId: id },
-    process.env.JWT_SECRET as string,
+    process.env.JWT_ACCESS_SECRET as string,
     { expiresIn: "15m" }
   );
 

@@ -4,4 +4,6 @@ import { logout } from "../controllers/user.controller";
 
 const router = Router();
 
-router.post("/logout", authMiddleware, logout);
+router.get("/logout", authMiddleware, logout);
+
+export default router;

@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
-
+import userRouter from "./routes/user.routes"
 dotenv.config();
 
 const app = express();
@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
-
+app.use("/user", userRouter)
 app.listen(3000, () => {
   console.log("🚀 Server running on http://localhost:3000");
 });
