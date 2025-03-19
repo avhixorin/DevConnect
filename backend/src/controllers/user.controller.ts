@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import prisma from "../prisma";
 import jwt from "jsonwebtoken";
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 
 const register = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -20,7 +21,7 @@ const register = async (req: Request, res: Response) => {
       return;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     const newUser = await prisma.user.create({
       data: {
         username,
@@ -71,10 +72,10 @@ const login = async (req: Request, res: Response) => {
     res.status(404).json({ message: "Email not found" });
     return;
   }
-  
+
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-  console.log("isPasswordCorrect", isPasswordCorrect)
+  console.log("isPasswordCorrect", isPasswordCorrect);
 
   if (!isPasswordCorrect) {
     res.status(400).json({ message: "Incorrect password" });
@@ -90,4 +91,16 @@ const login = async (req: Request, res: Response) => {
   res.status(200).json({ message: "User logged in" });
 };
 
-export { register, login };
+const logout = async (req: AuthenticatedRequest, res: Response) => {
+  if (!req.user) {
+    res.status(403).json("Access forbidden");
+  }
+
+  res
+    .clearCookie("accessToken")
+    .clearCookie("refreshToken")
+    .status(200)
+    .json({ message: "User logged out successfully" });
+};
+
+export { register, login, logout };
