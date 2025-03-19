@@ -14,12 +14,14 @@ import { Provider } from "react-redux";
 import store from "./redux/store/store.ts";
 import LoginForm from "./components/Auth/Login/LoginForm.tsx";
 import RegisterForm from "./components/Auth/Register/RegisterForm.tsx";
+import Home from "./components/Home/Home.tsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<LandingPage />} />
       <Route path="login" element={<LoginForm />} />
       <Route path="register" element={<RegisterForm />} />
+      <Route path="home" element={<Home />} />
     </Route>
   )
 );
