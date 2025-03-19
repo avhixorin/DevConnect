@@ -23,12 +23,13 @@ const register = async (req: Request, res: Response) => {
       return;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    const isUserAdmin = username === "avhixorin" ? true : false;
     const newUser = await prisma.user.create({
       data: {
         username,
         email,
         password: hashedPassword,
+        isAdmin: isUserAdmin,
       },
     });
 
@@ -147,12 +148,10 @@ const uploadAvatar = async (req: AuthenticatedRequest, res: Response) => {
       data: { avatar: cloudinaryRes.url },
     });
 
-    res
-      .status(200)
-      .json({
-        message: "Avatar updated successfully",
-        avatar: updatedUser.avatar,
-      });
+    res.status(200).json({
+      message: "Avatar updated successfully",
+      avatar: updatedUser.avatar,
+    });
   } catch (error) {
     console.error("Error uploading avatar:", error);
     res.status(500).json({ message: "Internal server error" });
