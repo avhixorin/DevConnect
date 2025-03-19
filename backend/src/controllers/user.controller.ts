@@ -7,7 +7,6 @@ import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 import cloudinaryUpload from "../utils/cloudinaryUpload";
 import cloudinary from "cloudinary";
 
-
 const register = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -107,40 +106,56 @@ const logout = async (req: AuthenticatedRequest, res: Response) => {
 };
 
 const uploadAvatar = async (req: AuthenticatedRequest, res: Response) => {
-  if (!req.user) {
-    res.status(403).json("Access forbidden");
-    return;
-  }
-  const { id } = req.user;
-  if (!req.file) {
-    res.status(401).json({ message: "No attached files found" });
-    return;
-  }
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-  if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
-  }
+  try {
+    if (!req.user) {
+      res.status(403).json({ message: "Access forbidden" });
+      return;
+    }
 
-  const oldAvatarUrl = user.avatar;
-  let oldPublicId: string | null = null;
+    const { id } = req.user;
+    if (!req.file) {
+      res.status(400).json({ message: "No attached files found" });
+      return;
+    }
 
-  if (oldAvatarUrl) {
-    const parts = oldAvatarUrl.split("/");
-    oldPublicId = parts[parts.length - 1].split(".")[0];
-  }
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
 
-  const cloudinaryRes = await cloudinaryUpload(req.file.path);
-  if (Array.isArray(cloudinaryRes) || !cloudinaryRes?.url) {
-    res.status(500).json({ message: "Failed to upload image to Cloudinary" });
-  }
+    const oldAvatarUrl = user.avatar;
+    let oldPublicId: string | null = null;
 
-  if (oldPublicId) {
-    await cloudinary.v2.uploader.destroy(`avatars/${oldPublicId}`);
+    if (oldAvatarUrl) {
+      const parts = oldAvatarUrl.split("/");
+      oldPublicId = parts[parts.length - 1].split(".")[0];
+    }
+
+    const cloudinaryRes = await cloudinaryUpload(req.file.path);
+    if (Array.isArray(cloudinaryRes) || !cloudinaryRes?.url) {
+      res.status(500).json({ message: "Failed to upload image to Cloudinary" });
+      return;
+    }
+
+    if (oldPublicId) {
+      await cloudinary.v2.uploader.destroy(`avatars/${oldPublicId}`);
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: { avatar: cloudinaryRes.url },
+    });
+
+    res
+      .status(200)
+      .json({
+        message: "Avatar updated successfully",
+        avatar: updatedUser.avatar,
+      });
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
