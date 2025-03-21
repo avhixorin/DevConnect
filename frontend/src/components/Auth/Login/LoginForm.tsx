@@ -20,7 +20,7 @@ const LoginForm = () => {
       "POST"
     );
     if (response.success) {
-      console.log(response);
+      console.log(response.message);
       navigate("/home");
     } else {
       console.log(response);
