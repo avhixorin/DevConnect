@@ -23,7 +23,7 @@ const RegisterForm = () => {
     );
     
     if (response.success) {
-      console.log(response);
+      console.log(response.message);
       navigate("/login");
     } else {
       console.log(response);
