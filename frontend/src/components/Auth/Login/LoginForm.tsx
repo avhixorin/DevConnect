@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import useFetch from "@/hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { setAdmin, setUserStatus } from "@/redux/features/userStatusSlice";
 const LoginForm = () => {
   const navigate = useNavigate();
   const { loginUser, loading } = useFetch();
@@ -9,6 +11,7 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
@@ -20,7 +23,9 @@ const LoginForm = () => {
       "POST"
     );
     if (response.success) {
-      console.log(response.message);
+      console.log(response.success);
+      dispatch(setUserStatus(true));
+      dispatch(setAdmin(response.data.isAdmin));
       navigate("/home");
     } else {
       console.log(response);

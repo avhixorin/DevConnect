@@ -97,7 +97,7 @@ const login = async (req: Request, res: Response) => {
     new ApiResponse({
       statusCode: 200,
       message: "User logged in",
-      data: null,
+      data: user,
     })
   );
 };
