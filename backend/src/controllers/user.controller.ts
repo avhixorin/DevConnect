@@ -59,20 +59,23 @@ const generateAccessTokenAndRefreshToken = async (id: string) => {
 };
 
 const login = async (req: Request, res: Response) => {
+  console.log("Login request");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log("Validation errors", errors.array());
     res.status(400).json({ errors: errors.array() });
     return;
   }
-
   const { email, password } = req.body;
+  console.log("Email", email);
+  console.log("Password", password);
   const user = await prisma.user.findUnique({
     where: {
       email,
     },
   });
   if (!user) {
-    res.status(404).json({ message: "Email not found" });
+    res.status(404).json({ message: "Account does not exist" });
     return;
   }
 

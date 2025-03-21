@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterForm.css";
+import useFetch from "@/hooks/useFetch";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const { registerUser, loading } = useFetch();
   const [userData, setUserData] = React.useState({
     username: "",
     email: "",
@@ -12,12 +14,22 @@ const RegisterForm = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(userData);
+    const response = await registerUser(
+      import.meta.env.VITE_REGISTER_URL,
+      userData,
+      "POST"
+    );
+    
+    if (response.success) {
+      console.log(response);
+    } else {
+      console.log(response.message);
+    }
   };
   return (
-    <div className="w-full h-screen flex justify-center items-center relative">
+    <div className="w-full h-screen flex justify-center items-center relative max-md:px-8">
         <form className="form" onSubmit={handleSubmit}>
           <div className="flex-column">
             <label>Username </label>
@@ -31,6 +43,7 @@ const RegisterForm = () => {
               name="username"
               onChange={handleChange}
               value={userData.username}
+              required
             />
           </div>
           <div className="flex-column">
@@ -45,6 +58,7 @@ const RegisterForm = () => {
               name="email"
               onChange={handleChange}
               value={userData.email}
+              required
             />
           </div>
           <div className="flex-column">
@@ -59,13 +73,14 @@ const RegisterForm = () => {
               name="password"
               onChange={handleChange}
               value={userData.password}
+              required
             />
           </div>
           <div className="flex justify-end">
             <span className="span">Forgot password?</span>
           </div>
-          <button type="submit" className="button-submit">
-            Sign Up
+          <button type="submit" disabled={loading} className="button-submit disabled:opacity-50 disabled:cursor-not-allowed">
+            {loading ? "Registering..." : "Sign Up"}
           </button>
           <p className="p">
             Already have an account?{" "}
