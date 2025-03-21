@@ -24,8 +24,9 @@ const RegisterForm = () => {
     
     if (response.success) {
       console.log(response);
+      navigate("/login");
     } else {
-      console.log(response.message);
+      console.log(response);
     }
   };
   return (

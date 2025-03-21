@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 import cloudinaryUpload from "../utils/cloudinaryUpload";
 import cloudinary from "cloudinary";
+import { ApiResponse } from "../utils/ApiResponse";
 
 const register = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -33,9 +34,13 @@ const register = async (req: Request, res: Response) => {
       },
     });
 
-    res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser });
+    res.status(201).json(
+      new ApiResponse({
+        statusCode: 201,
+        message: "User registered successfully",
+        data: newUser,
+      })
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -59,7 +64,6 @@ const generateAccessTokenAndRefreshToken = async (id: string) => {
 };
 
 const login = async (req: Request, res: Response) => {
-  console.log("Login request");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("Validation errors", errors.array());
@@ -67,8 +71,7 @@ const login = async (req: Request, res: Response) => {
     return;
   }
   const { email, password } = req.body;
-  console.log("Email", email);
-  console.log("Password", password);
+
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -81,8 +84,6 @@ const login = async (req: Request, res: Response) => {
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-  console.log("isPasswordCorrect", isPasswordCorrect);
-
   if (!isPasswordCorrect) {
     res.status(400).json({ message: "Incorrect password" });
     return;
@@ -92,9 +93,13 @@ const login = async (req: Request, res: Response) => {
   res
     .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
     .cookie("accessToken", accessToken, { httpOnly: true, secure: true });
-
-  console.log("User logged in", email, password);
-  res.status(200).json({ message: "User logged in" });
+  res.status(200).json(
+    new ApiResponse({
+      statusCode: 200,
+      message: "User logged in",
+      data: null,
+    })
+  );
 };
 
 const logout = async (req: AuthenticatedRequest, res: Response) => {
@@ -106,7 +111,13 @@ const logout = async (req: AuthenticatedRequest, res: Response) => {
     .clearCookie("accessToken")
     .clearCookie("refreshToken")
     .status(200)
-    .json({ message: "User logged out successfully" });
+    .json(
+      new ApiResponse({
+        statusCode: 200,
+        message: "User logged out successfully",
+        data: null,
+      })
+    );
 };
 
 const uploadAvatar = async (req: AuthenticatedRequest, res: Response) => {
@@ -151,10 +162,13 @@ const uploadAvatar = async (req: AuthenticatedRequest, res: Response) => {
       data: { avatar: cloudinaryRes.url },
     });
 
-    res.status(200).json({
-      message: "Avatar updated successfully",
-      avatar: updatedUser.avatar,
-    });
+    res.status(200).json(
+      new ApiResponse({
+        statusCode: 200,
+        message: "Avatar updated successfully",
+        data: updatedUser.avatar,
+      })
+    );
   } catch (error) {
     console.error("Error uploading avatar:", error);
     res.status(500).json({ message: "Internal server error" });

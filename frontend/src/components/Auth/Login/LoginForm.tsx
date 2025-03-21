@@ -21,8 +21,9 @@ const LoginForm = () => {
     );
     if (response.success) {
       console.log(response);
+      navigate("/home");
     } else {
-      console.log(response.message);
+      console.log(response);
     }
   };
   return (

@@ -34,7 +34,7 @@ const useFetch = () => {
       if (!res.ok) {
         throw new Error("Request failed");
       }
-
+      
       return await res.json();
     } catch (error) {
       return { success: false, message: (error as Error).message };
