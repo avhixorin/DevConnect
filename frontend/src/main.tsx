@@ -15,13 +15,16 @@ import store from "./redux/store/store.ts";
 import LoginForm from "./components/Auth/Login/LoginForm.tsx";
 import RegisterForm from "./components/Auth/Register/RegisterForm.tsx";
 import Home from "./components/Home/Home.tsx";
+import Main from "./components/Home/Main/Main.tsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<LandingPage />} />
       <Route path="login" element={<LoginForm />} />
       <Route path="register" element={<RegisterForm />} />
-      <Route path="home" element={<Home />} />
+      <Route path="home" element={<Home />} >
+       <Route index element={<Main />} />
+      </Route>
     </Route>
   )
 );
