@@ -49,7 +49,7 @@ const initialState: UserStatus = {
     notifications: 0,
     followers: 0,
     following: 0,
-  }
+  },
 };
 
 const userStatusSlice = createSlice({
@@ -62,6 +62,16 @@ const userStatusSlice = createSlice({
     setAdmin: (state, action: PayloadAction<boolean>) => {
       state.isAdmin = action.payload;
     },
+    setUser: (state, action: PayloadAction<UserStatus["user"]>) => {
+      state.user = action.payload;
+    },
+    setPartialUser: (
+      state,
+      action: PayloadAction<Partial<UserStatus["user"]>>
+    ) => {
+      state.user = { ...state.user, ...action.payload };
+    },
+    resetUser: () => initialState,
   },
 });
 
